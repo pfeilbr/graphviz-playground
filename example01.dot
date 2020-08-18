@@ -1,11 +1,12 @@
 digraph MyGraph {
   //rankdir=LR
 
+  user [image="images/User_light-bg@4x.png", shape="none", label=""]
   browser [label="browser"]
   route53
   acm [label="ACM"]
-  api [label="api gateway"]
-  
+  api [label="api gateway", image="images/Amazon-API-Gateway@4x.png", shape="none", label=""]
+  lambda [image="images/AWS-Lambda@4x.png", shape="none", label=""]
   
   subgraph cluster_stepfn {
 
@@ -17,10 +18,11 @@ digraph MyGraph {
     lambda_trigger->eventbridge_event
   }
 
+  user->api;
+  api->lambda;
   browser->route53;
   route53->acm;
   acm->api;
-  api->lambda_save;
   
 
 

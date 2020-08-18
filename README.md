@@ -4,6 +4,16 @@ learn [Graphviz - Graph Visualization Software](https://graphviz.org/)
 
 * [`example01.dot`](example01.dot)
 
+### Developing
+
+```sh
+# vscode "Graphviz Interactive Preview" extension was not working with images
+# use the following to create .png image on .dot file change
+# open vscode in split view with .dot in one and .png in the other.
+# .png view will refresh when the file is updated.
+fswatch -o example01.dot | xargs -n1 -I{} dot -Tpng example01.dot -oexample01.png
+```
+
 ---
 
 ## Screenshots
