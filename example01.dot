@@ -1,0 +1,27 @@
+digraph MyGraph {
+  //rankdir=LR
+
+  browser [label="browser"]
+  route53
+  acm [label="ACM"]
+  api [label="api gateway"]
+  
+  
+  subgraph cluster_stepfn {
+
+    node [style=filled];
+    
+    label="step function";
+    lambda_save->dynamodb;
+    dynamodb->lambda_trigger;
+    lambda_trigger->eventbridge_event
+  }
+
+  browser->route53;
+  route53->acm;
+  acm->api;
+  api->lambda_save;
+  
+
+
+}
