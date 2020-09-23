@@ -1,0 +1,38 @@
+digraph Architecture {
+  //rankdir=LR
+
+    nginx_frontend [label="nginx"]
+    express_front_end [label="Express Server Process(es)(PM2)"]
+    static_web_assets [label="Static Web Assets\n(html, css, js, png, etc.)"]
+    api_proxy [label="API proxy (/api/* routes)"]
+
+    nginx_backend [label="nginx"]
+    express_api_backend [label="Express Process(es)(PM2) (API)"]
+    
+    subgraph cluster_region {
+        label="Region (Ireland)"
+
+        subgraph cluster_vpc {
+            label="VPC"
+
+            subgraph cluster_frontend {
+                label="EC2 (frontend)"
+                nginx_frontend->express_front_end
+                express_front_end->static_web_assets
+                express_front_end->api_proxy
+            }
+        
+            subgraph cluster_backend {
+                label="EC2 (backend)"
+                
+                nginx_backend->express_api_backend
+            }  
+        }
+    }
+
+
+    browser->nginx_frontend
+    api_proxy->nginx_backend
+    express_api_backend->dynamodb
+    express_api_backend->downstream_systems
+}
